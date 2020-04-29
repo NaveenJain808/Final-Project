@@ -1,5 +1,6 @@
 import java.util.ArrayList;
-import java.util.*;
+//we want this object to be able to use the mean method from the sample method so we extend it
+//now we have a class that can implement more  complex statistics such as variance and standard deviation of our random samples
 public class statistics extends Sample {
     ArrayList<Double> Averages;
     public statistics(ArrayList<Double> Averages) {

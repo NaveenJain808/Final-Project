@@ -6,14 +6,26 @@ import java.util.*;
  
 public class bootstrap{   
     public static void main(String[] args)throws FileNotFoundException{
+        String directory="";
         Scanner console = new Scanner(System.in);
-        System.out.println("enter file location e.g. C:/Users/redso/Desktop/HeightData.txt");
-        String location = console.nextLine();
+        int check=2;
+        while(check==2){
+            System.out.println("enter file location e.g. C:/Users/redso/Desktop/HeightData.txt");
+            String location = console.nextLine();
+            try{
+                File names = new File(location);
+                Scanner scnr = new Scanner(names);
+                directory=location;
+                check=1;
+            }catch(FileNotFoundException e){
+                System.out.println("location not found try again");
+                check=2;
+            }
+        }
         System.out.println("enter a number of samples");
         int samplesize = console.nextInt();
         System.out.println("enter size of sample");
         int samplelength=console.nextInt();
-
         Sample mean = new Sample(samplesize);
         //original data will store all observations from a dataset
         ArrayList<Double> OriginalData=mean.getOriginalData();
@@ -22,7 +34,7 @@ public class bootstrap{
         //this will store the values of each sample, and will be used to create a confidence interval for the population average
         ArrayList<Double> Averages=mean.getAverages();
 
-        readFile(location, OriginalData);
+        readFile(directory, OriginalData);
         fillSample(OriginalData, nest,samplelength);
         getAverage(nest,Averages);
         sort(Averages);
@@ -83,7 +95,7 @@ public class bootstrap{
         System.out.println("population estimate= "+av);
         System.out.println("Standard deviation of population estimates= "+stat.standardDeviation(av));
     }
-    //calcualte confidence values with sorted sample averages
+    //calculate confidence values with sorted sample averages
     public static void sort(ArrayList<Double> Averages){
         Collections.sort(Averages);
         int x = (int) (Averages.size() * .025);
